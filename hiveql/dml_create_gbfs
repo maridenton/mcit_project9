@@ -1,0 +1,33 @@
+DROP TABLE ext_gbfs
+CREATE EXTERNAL TABLE ext_gbfs
+    (
+    last_updated    STRING,
+    ttl             SMALLINT,
+     `data`          STRUCT<
+                            en   : STRUCT<  
+                                        feeds : ARRAY< STRUCT<
+                                                name : STRING,
+                                                url : STRING
+                                                >>
+                                            >,
+                            fr   : STRUCT<  
+                                        feeds : ARRAY< STRUCT<
+                                                name : STRING,
+                                                url : STRING
+                                                >>
+                                            >,
+                            es   : STRUCT<  
+                                        feeds : ARRAY< STRUCT<
+                                                name : STRING,
+                                                url : STRING
+                                                >>
+                                            >
+                            >
+    )
+ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'
+STORED AS TEXTFILE
+LOCATION '/user/fall2019/marinda/project9/gbfs'
+
+
+
+select * from ext_gbfs

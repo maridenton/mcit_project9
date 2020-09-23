@@ -1,0 +1,36 @@
+DROP TABLE ext_station_information ;
+CREATE EXTERNAL TABLE ext_station_information 
+    (
+    last_updated    STRING,
+    ttl             SMALLINT,
+     `data`          STRUCT<
+                            stations : ARRAY< STRUCT<
+                                                    station_id : STRING,
+                                                    name: STRING,
+                                                    short_name : STRING,
+                                                    lat: FLOAT,
+                                                    lon	:FLOAT,
+                                                    address	 :STRING,
+                                                    cross_street :STRING,	
+                                                    region_id	 :STRING,
+                                                    post_code	 :STRING,
+                                                    rental_methods	: ARRAY<STRING>,
+                                                    is_virtual_station : BOOLEAN	,
+                                                    station_area :STRING,
+                                                    capacity : INT	,
+                                                    vehicle_capacity : STRING	,
+                                                    is_valet_station : BOOLEAN	,
+                                                    rental_uris	: STRUCT <
+                                                               	    android : STRING,
+                                                                 	ios : STRING,
+                                                                 	web : STRING>,
+                                                    vehicle_type_capacity : STRING
+                                                    >
+                                            >
+                            >
+    )
+ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'
+STORED AS TEXTFILE
+LOCATION '/user/fall2019/marinda/project9/station_information/';
+
+select * from ext_station_information;

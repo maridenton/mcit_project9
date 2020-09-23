@@ -1,0 +1,42 @@
+
+
+drop table  ext_system_information;
+
+CREATE EXTERNAL TABLE ext_system_information (
+                    last_updated    STRING,
+                    ttl             SMALLINT,
+                    `data`          STRUCT<
+                                            system_id :	STRING,
+                                            language:STRING,
+                                            name:	STRING,
+                                            short_name:STRING,
+                                            operator: STRING,
+                                            url	:STRING,
+                                            purchase_url:STRING,
+                                            start_date:STRING, 
+                                            phone_number:STRING,
+                                            email:	STRING,
+                                            feed_contact_email	: STRING,
+                                            timezone	: STRING,
+                                            license_id	: STRING,
+                                            license_url	: STRING,
+                                            attribution_organization_name	: STRING,
+                                            attribution_url	: STRING,
+                                            rental_apps : STRUCT <
+                                                                android : STRUCT < 
+                                                                                store_uri : STRING, 
+                                                                                discovery_uri : STRING
+                                                                                >,
+                                                                ios : STRUCT < 
+                                                                                store_uri : STRING, 
+                                                                                discovery_uri : STRING
+                                                                                >
+                                                                >
+                                            >
+
+                                            )
+ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'
+STORED AS TEXTFILE
+LOCATION '/user/fall2019/marinda/project9/system_information/';
+
+select * from ext_system_information

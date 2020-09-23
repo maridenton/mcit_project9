@@ -1,0 +1,26 @@
+DROP TABLE ext_system_alerts;
+CREATE EXTERNAL TABLE ext_system_alerts
+    (
+    last_updated    STRING,
+    ttl             SMALLINT,
+     `data`          STRUCT<
+                            alerts : ARRAY< STRUCT<
+                                                alert_id : STRING,
+                                                type : STRING,
+                                                times : ARRAY<STRUCT <
+                                                                `start` : STRING,
+                                                                `end` : STRING>>,
+                                                station_ids : ARRAY<STRING>,
+                                                region_ids  : ARRAY<STRING>,
+                                                url : STRING,
+                                                summary : STRING,
+                                                description : STRING,
+                                                last_updated : STRING
+                                                >
+                                            >
+                            >
+    )
+ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'
+STORED AS TEXTFILE
+LOCATION '/user/fall2019/marinda/project9/system_alerts/';
+SELECT * from ext_system_alerts

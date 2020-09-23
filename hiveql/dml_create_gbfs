@@ -26,7 +26,7 @@ CREATE EXTERNAL TABLE ext_gbfs
     )
 ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'
 STORED AS TEXTFILE
-LOCATION '/user/fall2019/marinda/project9/gbfs'
+LOCATION '/user/fall2019/marinda/project9/gbfs';
 
 
 

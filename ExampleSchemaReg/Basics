@@ -1,0 +1,51 @@
+//using schema
+
+
+
+object RegisterSchema extends App {
+  val enrichedTripText = Source.fromString(
+    """{
+      |  "type": "record",
+      |  "name": "EnrichedTripTest",
+      |  "namespace": "ca.dataedu.avro",
+      |  "fields": [
+      |    { "name":  "start_date", "type": "string" },
+      |    { "name":  "start_station_code", "type": "int" },
+      |  ]
+      |}""".stripMargin
+  )
+    .mkString
+  val enrichedTripSchema: Schema = new Schema.Parser().parse(enrichedTripText)
+  val srClient = new CachedSchemaRegistryClient("http://quickstart.cloudera:8081", 1)
+  srClient.register("fall2019_marinda_enriched_trip_test-value", enrichedTripSchema)
+}
+
+object UsingSchema {
+  def main(args: Array[String]): Unit = {
+
+  val srClient = new CachedSchemaRegistryClient("http://quickstart.cloudera:8081", 1)
+  val metadata = srClient.getSchemaMetadata("fall2019_marinda_enriched_trip_test-value", 1)
+  val eTripSchema: Schema = srClient.getByID(metadata.getId)
+
+  val avroEnrichedTrip: List[GenericRecord] = enrichTripList.map { x =>
+          new GenericRecordBuilder(eTripSchema)
+            .set("start_date", x(1))
+            .set("start_station_code", x(0))
+            .set("end_date", x(2))
+            .set("end_station_code", x(3))
+            .set("duration_sec", x(4))
+            .set("is_member", x(5))
+            .set("system_id", x(6))
+            .set("timezone", x(7))
+            .set("station_id", x(8))
+            .set("name", x(9))
+            .set("short_name", x(10))
+            .set("lat", x(11))
+            .set("lon", x(12))
+            .set("capacity", x(13))
+            .build()
+        }.toList
+
+
+
+  }}

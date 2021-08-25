@@ -1,0 +1,1 @@
+Get-Content -First 101 'D:\Project Bigdata\Code\Sprint3\Data\OD_2021_06.csv' | Out-File 'D:\Project Bigdata\Code\Sprint3\Data\100_trips.csv'
